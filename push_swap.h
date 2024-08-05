@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/01 19:26:55 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:54:45 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,39 @@
 
 # include "libft/libft.h"
 
-typedef struct s_nodes
+typedef struct s_nodes // rebname to t_stack
 {
 	int 			value;
 	int				index;
 	int				*content;
 	struct s_nodes	*next;
-	struct s_nodes	*dest;
-	struct s_moves 	*moves;
+	struct s_nodes	*prev;	
 }	t_nodes;
+
+typedef struct s_stack // rename to distance?cost? what?
+{
+    t_nodes	*head;
+    t_nodes	*tail;
+    int		size;
+} t_stack;
 
 typedef struct s_moves
 {
-	int				ra;
-	int				rb;
-	int				rra;
-	int				rrb;
-	int				rr;
-	int				rrr;
-	int				rra_after_push;
-	int				rrb_after_push;
-	struct s_list	*dest;
-}	t_moves;
+	int	ra;
+	int	rb;
+	int	rra;
+	int	rrb;
+	int	rr;
+	int	rrr;
+} t_moves;
 
+
+int				calculate_distance_to_top(t_stack *stack, int target_index, int *use_reverse);
+void			move_element_to_top(t_stack *stack, int target_index);
 
 int				make_chunks(int count);
-void			last_fix(t_nodes **stack_a, int count);
 void			push_chunks(t_nodes **stack_a, t_nodes **stack_b, int count);
 void			update_chunks(t_nodes **stack_b, int *min_chunk, int *step, int *pushed);
-
 
 void            fill_left(int arr[], int temp_left[], int left, int low);
 void	        fill_right(int arr[], int temp_right[], int right, int middle);
@@ -58,16 +62,14 @@ void			ft_print_array(int arr[], int length);
 void			ft_assign_indices(t_nodes *stack_a, int *sorted_array, int length);
 void			ft_print_indices_and_values(t_nodes *stack_a);
 
-
 int             ft_sort2(t_nodes **stack_a);
 void            ft_sort3(t_nodes **stack_a);
 int             ft_push_cost(t_nodes *node_b);
 void            exe_cheapest_move(t_nodes **stack_a, t_nodes **stack_b);
-t_nodes          *ft_find_min_node(t_nodes *stack_a);
+t_nodes         *ft_find_min_node(t_nodes *stack_a);
 void            ft_rotate_to_min(t_nodes **stack_a);
 void	        ft_print_nodes(t_nodes *stack);
 void			apply_moves(t_nodes *cheapest_node, t_nodes **stack_a, t_nodes **stack_b);
-
 
 void			handle_error(const char *message);
 int				parse_sign(const char *str, int *index);
@@ -80,11 +82,12 @@ char			**ft_usage_check(int argc, char **argv);
 char			**ft_arg_checker(int argc, char **argv);
 
 t_nodes			*ft_createstack_a(char **args);
-t_nodes          *ft_lstnew_int(int value);
-t_nodes          *ft_lstlast_int(t_nodes *lst);
+t_nodes         *ft_lstnew_int(int value);
+t_nodes         *ft_lstlast_int(t_nodes *lst);
 void            ft_lstadd_back_int(t_nodes **lst, t_nodes *new);
 int             ft_lstsize_int(t_nodes *lst);
 t_nodes			*ft_lstnew_index(int index);
+void			ft_lstprev(t_nodes *head);
 
 int				sa(t_nodes **stack_a);
 int				sb(t_nodes **stack_b);

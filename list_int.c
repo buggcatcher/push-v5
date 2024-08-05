@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:31:43 by mailinci          #+#    #+#             */
-/*   Updated: 2024/07/23 23:10:42 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:16:05 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,17 @@ int ft_lstsize_int(t_nodes *lst)
         lst = lst->next;
     }
     return size;
+}
+
+void ft_lstprev(t_nodes *head)
+{
+    t_nodes *current = head;
+    t_nodes *previous = NULL;
+
+    while (current != NULL)
+    {
+        current->prev = previous;
+        previous = current;
+        current = current->next;
+    }
 }

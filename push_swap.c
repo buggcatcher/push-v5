@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/01 19:57:58 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:54:43 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ int	main(int argc, char **argv)
         current = current->next;
     }
 
+    printf("\nstack_a\n");
+	ft_print_nodes(stack_a); 
+    printf("\nstack_b\n");
+    ft_print_nodes(stack_b);
+
 
     len = ft_create_temp_array(stack_a, &temp_array);
     cold_start(temp_array, &stack_a, len);
@@ -146,6 +151,7 @@ int	main(int argc, char **argv)
     {
         ft_sort3(&stack_a);
     }
+
 
 
 

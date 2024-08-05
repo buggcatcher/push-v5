@@ -6,101 +6,111 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:42:51 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/01 19:29:43 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:43:14 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_moves *moves_init()
+int calculate_distance_to_top(t_stack *stack, int target_index, int *use_reverse)
 {
-    t_moves *moves = malloc(sizeof(t_moves));
+    int distance_from_tail = 0;
+    int distance_from_head = 0;
+    t_nodes *current;
 
-    moves->ra = 0;
-    moves->rb = 0;
-    moves->rra = 0;
-    moves->rrb = 0;
-    moves->rr = 0;
-    moves->rrr = 0;
-    moves->dest = NULL;
-    return moves;
-}
-
-void cancel_out_rotations(t_moves *moves, int size_a, int size_b)
-{
-    if (moves->ra > size_a / 2)
-        moves->rra = size_a - moves->ra;
-    if (moves->rb > size_b / 2)
-        moves->rrb = size_b - moves->rb;
-    moves->ra = moves->rra_after_push;
-}
-
-int ft_push_cost(t_nodes *node_b)
-{
-    int cost = 0;
-
-    t_nodes *current_b = node_b;
-
-    while (current_b->moves->ra >= 1 && current_b->moves->rb >= 1)
+    current = stack->head;
+    while (current && current->index != target_index)
     {
-        current_b->moves->rr++;
-        current_b->moves->ra--;
-        current_b->moves->rb--;
+        distance_from_head++;
+        current = current->next;
     }
-    while (current_b->moves->rra >= 1 && current_b->moves->rrb >= 1)
+
+    current = stack->tail;
+    while (current && current->index != target_index)
     {
-        current_b->moves->rrr++;
-        current_b->moves->rra--;
-        current_b->moves->rrb--;
+        distance_from_tail++;
+        current = current->prev;
     }
-    cost = current_b->moves->ra + current_b->moves->rb + current_b->moves->rra + current_b->moves->rrb + current_b->moves->rr + current_b->moves->rrr;
 
-    //printf("DEBUG ft_push_cost:      Cost of pushing %d is %d\n", node_b->value, cost);
-    return cost;
+    *use_reverse = 1;
+    if (distance_from_tail <= distance_from_head)
+        return distance_from_tail;
+    *use_reverse = 0;
+    return distance_from_head;
+}
+    /// ??? ///
+    // while (step-- > 0)
+    // {
+    //     if (use_reverse)
+    //         reverse_rotate(stack);    // crea delle fx che accettino sia a che b
+    //     else
+    //         rotate(stack);            // same shit
+    // }
+
+int find_target_index(t_nodes *stack_a, t_nodes *stack_b)
+{
+    t_nodes *node_a = stack_a;
+    t_nodes *node_b = stack_b;
+    int target_index = -1;
+
+    if (node_b->index > node_a->index && node_b->index > node_a->next->index)
+        target_index = node_a->next->index;
+    else
+        target_index = node_a->index;
+
+    return target_index;
 }
 
-void apply_rot_double(int *moves, void (*rotate_fx)(t_nodes **, t_nodes **), t_nodes **stack_a, t_nodes **stack_b)
+void assign_cost(t_moves *moves, t_stack *stack_a, t_stack *stack_b, int target_index)
 {
-    while (*moves > 0)
-    {
-        rotate_fx(stack_a, stack_b);
-        (*moves)--;
+    int array[6] = {0}; // Indexes: 0=ra, 1=rb, 2=rra, 3=rrb, 4=rr, 5=rrr
+    int use_reverse;
+    int distance;
+    int i;
+
+    for (i = 0; i < 6; i++)
+    {   
+        find_target_index(stack_a, stack_b);
+        if (i == 0)
+            distance = calculate_distance_to_top(stack_a, target_index, &use_reverse);
+        else if (i == 1)
+
+            distance = calculate_distance_to_top(stack_b, target_index, &use_reverse);
+        else if (i == 2)
+            distance = calculate_distance_to_top(stack_a, target_index, &use_reverse);
+        else if (i == 3)
+            distance = calculate_distance_to_top(stack_b, target_index, &use_reverse);
+        array[i] = distance;
     }
-}
-void apply_rot_single(int *moves, void (*rotate_fx)(t_nodes **), t_nodes **stack)
-{
-    while (*moves > 0)
-    {
-        rotate_fx(stack);
-        (*moves)--;
-    }
-}
+    /// ??? ///
+    // void cancel_out_rotations to assign rr and rrr (t_moves *moves, int size_a, int size_b)
+    // {
+    //     if (moves->ra > size_a / 2)
+    //         moves->rra = size_a - moves->ra;
+    //     if (moves->rb > size_b / 2)
+    //         moves->rrb = size_b - moves->rb;
+    //     moves->ra = moves->rra_after_push;
+    // }
 
-void apply_moves(t_nodes *cheapest_node, t_nodes **stack_a, t_nodes **stack_b)
-{
-    printf("DEBUG\tt_moves: ra: %d, rb: %d, rra: %d, rrb: %d, rr: %d, rrr: %d\n rra_after_push : %d\n", 
-           cheapest_node->moves->ra, 
-           cheapest_node->moves->rb, 
-           cheapest_node->moves->rra, 
-           cheapest_node->moves->rrb, 
-           cheapest_node->moves->rr, 
-           cheapest_node->moves->rrr, 
-           cheapest_node->moves->rra_after_push);
-
-    if (cheapest_node->moves->rr > 0)
-        apply_rot_double(&(cheapest_node->moves->rr), rr, stack_a, stack_b);
-    if (cheapest_node->moves->rrr > 0)
-        apply_rot_double(&(cheapest_node->moves->rrr), rrr, stack_a, stack_b);
-    if (cheapest_node->moves->ra > 0)
-        apply_rot_single(&(cheapest_node->moves->ra), ra, stack_a);
-    if (cheapest_node->moves->rb > 0)
-        apply_rot_single(&(cheapest_node->moves->rb), rb, stack_b);
-    if (cheapest_node->moves->rra > 0)
-        apply_rot_single(&(cheapest_node->moves->rra), rra, stack_a);
-    if (cheapest_node->moves->rrb > 0)
-        apply_rot_single(&(cheapest_node->moves->rrb), rrb, stack_b);
-
-    pa(stack_a, stack_b);
-    if (cheapest_node->moves->rra_after_push > 0)
-        apply_rot_single(&(cheapest_node->moves->rra_after_push), rra, stack_a);
+    moves->ra = array[0];
+    moves->rb = array[1];
+    moves->rra = array[2];
+    moves->rrb = array[3];
+    moves->rr = array[4];
+    moves->rrr = array[5];
 }
+    /// ??? ///
+    // choose_move
+    // 1st case: il maggiore tra ra e rb
+    // 2nd case: ra + rrb
+    // 3rd case: rra + rb
+    // 4th case: il maggiore tra rra e rrb
+
+    // se 1st case e' il minore
+    //     se ra > rb
+    //         rr = rb
+    //         ra = ra-rb
+    //     altrimenti
+    //         rr = ra
+    //         rb = rb-ra
+    // tutte le altre rotazioni sono 0

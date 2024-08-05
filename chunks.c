@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:55:21 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/01 19:30:11 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:21:46 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,6 @@ int make_chunks(int stack_size)
     return chunk_size;
 }
 
-// fix the last elements
-void last_fix(t_nodes **stack_a, int stack_size)
-{
-    t_nodes *content;
-    int consecutives;
-
-    consecutives = 1;
-    content = *stack_a;
-    while (content->next && content->content == (content->next->content - 1))
-    {
-        consecutives++;
-        content = content->next;
-    }
-    if (consecutives > (stack_size - consecutives))
-    {
-        while (stack_size-- > consecutives)
-            rra(stack_a);
-    }
-    else
-    {
-        while (consecutives-- > 0)
-            ra(stack_a);
-    }
-}
-
-
 void	push_chunks(t_nodes	**stack_a, t_nodes **stack_b, int count)
 {
 	int	min_chunk;
@@ -58,7 +32,7 @@ void	push_chunks(t_nodes	**stack_a, t_nodes **stack_b, int count)
 
 	min_chunk = 1;
 	pushed = 0;
-	step = make_chunks(count); 	  //ft already ordered
+	step = make_chunks(count);
 	while (pushed < (count - 3) && !ft_order_check(*stack_a))
 	{
 		//printf("DEBUG index: %d\tvalue: %d\n", (*stack_a)->index, (*stack_a)->value);

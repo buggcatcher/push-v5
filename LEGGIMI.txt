@@ -59,53 +59,18 @@ porta il nodo con il costo minore in cima a b
 inserisci sequenza mosse per elidere alcune mosse 
 
 
+
+RIVEDI TUTTA LA LOGICA DI CHUNKS
+fatto!
+
+
 ===========
 =  TO DO  =
 ===========
-RIVEDI TUTTA LA LOGICA DI CHUNKS
+
+d_tail: per capire se devo avvicinarlo con ra o con rra
 
 
-stack_a
-[20] -> [103] -> [18] -> [14] -> [19] -> [5] -> [104] -> [41] -> [7] -> [21] -> [10] -> [28] -> 
-[1] -> [42] -> [100] -> [102] -> [NULL]
-
-stack_b
-[NULL]
-
-ra
-pb
-pb
-rb
-pb
-rb
-pb
-rb
-pb
-rb
-pb
-pb
-pb
-pb
-pb
-pb
-rb
-pb
-rb
-pb
-rb
-rra
-
-stack_a
-[20] -> [100] -> [102] -> [NULL]
-
-stack_b
-[10] -> [21] -> [7] -> [41] -> [104] -> [103] -> [18] -> [14] -> [19] -> [5] -> [28] -> [1] -> 
-[42] -> [NULL]
-
-
-
-
-
-
-
-
+itera per ogni elemento dello stack a confrontandolo con la testa in b
+se e' minore del nodo precedente e maggiore del nodo seguente imposta
+il target 
