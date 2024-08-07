@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/05 20:54:43 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:38:25 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,10 @@ int	main(int argc, char **argv)
         current = current->next;
     }
 
-    printf("\nstack_a\n");
-	ft_print_nodes(stack_a); 
-    printf("\nstack_b\n");
-    ft_print_nodes(stack_b);
-
-
+    // printf("\nstack_a\n");
+	// ft_print_nodes(stack_a); 
+    // printf("\nstack_b\n");
+    // ft_print_nodes(stack_b);
     len = ft_create_temp_array(stack_a, &temp_array);
     cold_start(temp_array, &stack_a, len);
     ft_sort_temp_array(temp_array, len);
@@ -142,31 +140,34 @@ int	main(int argc, char **argv)
     ft_assign_indices(stack_a, temp_array, len);
     ft_print_indices_and_values(stack_a);
     printf("\n");
-
     chunk_size = make_chunks(stack_size);
     push_chunks(&stack_a, &stack_b, stack_size);
-
-
-    if (ft_lstsize_int(stack_a) == 3)
-    {
-        ft_sort3(&stack_a);
-    }
-
-
-
-
     //exit(1);
 
-
     // start pushing to a according to the cost of the moves
+    // while (stack_b != NULL)
+    // {   
+    //     t_moves cost;
+    //     while(node_b)
+    //     {
+    //     cost = assign_distance(*moves, *stack_a, *stack_b)
+    //     moves = numero_mosse(node_b);
+    //     if (tot_moves(moves) < min_moves)
+    //     {
+    //         min_moves = moves;  // mosse da fare per spostarlo
+    //         best_node = node_b; //nodo da spostare
+    //     }
+    //     node_b = node_b->next;
+    // }
+    //     choose_move(cost);
+    //     execute_moves(min_moves);
+    // }
     // ft_rotate_to_min
 
     printf("\nstack_a\n");
 	ft_print_nodes(stack_a); 
     printf("\nstack_b\n");
     ft_print_nodes(stack_b);
-
-
 
     free(array);
     if (free_flag)

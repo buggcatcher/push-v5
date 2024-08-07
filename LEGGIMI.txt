@@ -74,3 +74,24 @@ d_tail: per capire se devo avvicinarlo con ra o con rra
 itera per ogni elemento dello stack a confrontandolo con la testa in b
 se e' minore del nodo precedente e maggiore del nodo seguente imposta
 il target 
+
+
+Caso 1: ra > rb
+    Calcolo il numero di rotazioni doppie (rr).
+    Se ra > rb, rr diventa rb, e riduco ra di rb, azzerando rb.
+    Altrimenti, rr diventa ra, e riduco rb di ra, azzerando ra.
+    Imposto rra e rrb a zero.
+
+Caso 2: ra + rrb
+    Azzero rb, rra, rr, e rrr.
+    Il costo è la somma di ra e rrb.
+
+Caso 3: rra + rb
+    Azzero ra, rrb, rr, e rrr.
+    Il costo è la somma di rra e rb.
+
+Caso 4: rra > rrb
+    Calcolo il numero di rotazioni doppie inverse (rrr).
+    Se rra > rrb, rrr diventa rrb, e riduco rra di rrb, azzerando rrb.
+    Altrimenti, rrr diventa rra, e riduco rrb di rra, azzerando rra.
+    Imposto ra e rb a zero.
