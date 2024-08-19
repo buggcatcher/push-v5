@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/05 20:54:45 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:51:06 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,16 @@
 
 # include "libft/libft.h"
 
-typedef struct s_nodes // rebname to t_stack
+typedef struct s_nodes 
 {
 	int 			value;
 	int				index;
 	int				*content;
 	struct s_nodes	*next;
-	struct s_nodes	*prev;	
+	struct s_nodes	*prev;
+	struct s_nodes	*head;
+    int				size;
 }	t_nodes;
-
-typedef struct s_stack // rename to distance?cost? what?
-{
-    t_nodes	*head;
-    t_nodes	*tail;
-    int		size;
-} t_stack;
 
 typedef struct s_moves
 {
@@ -42,8 +37,10 @@ typedef struct s_moves
 } t_moves;
 
 
-int				calculate_distance_to_top(t_stack *stack, int target_index, int *use_reverse);
-void			move_element_to_top(t_stack *stack, int target_index);
+int				calculate_distance_from_head(t_nodes *stack, int target);
+int				find_target(t_nodes *stack_a, t_nodes *stack_b);
+void			target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b);
+t_moves			assign_cost(t_moves moves);
 
 int				make_chunks(int count);
 void			push_chunks(t_nodes **stack_a, t_nodes **stack_b, int count);

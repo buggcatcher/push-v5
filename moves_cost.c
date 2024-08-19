@@ -6,13 +6,13 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:42:51 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/07 15:08:50 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:01:10 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int calculate_distance_from_head(t_stack *stack, int target)
+int calculate_distance_from_head(t_nodes *stack, int target)
 {
     int distance_from_head = 0;
     t_nodes *current;
@@ -29,17 +29,18 @@ int calculate_distance_from_head(t_stack *stack, int target)
 
 int find_target(t_nodes *stack_a, t_nodes *stack_b)
 {
-    t_nodes *node_a = stack_a;
-    t_nodes *node_b = stack_b;
+    t_nodes *node_a = stack_a->head;
+    t_nodes *node_b = stack_b->head;
     int counter;
 
     counter = 0;
+    printf("\nDEBUG: node_b->index: %d\n", node_b->next->index);
     while (1)
     {
         if (counter == ft_lstsize_int(stack_a))
         {
-            if (node_b->index > node_a->index && node_b->index > stack_a->index)
-                return (stack_a->index);
+            if (node_b->index > node_a->index && node_b->index > stack_a->head->index)
+                return (stack_a->head->index);
 
             else
                 return (-1);
@@ -48,19 +49,18 @@ int find_target(t_nodes *stack_a, t_nodes *stack_b)
         {
             if (node_b->index > node_a->index && node_b->index > node_a->next->index)
                 return (node_a->next->index);
-
             else
                 node_a = node_a->next;
         }
         counter++;
     }
-    return (-1);
+    return (-1); // non dovrebbe mai accadere
 }
 
-void assign_distance(t_moves *moves, t_stack *stack_a, t_stack *stack_b)
+void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b)
 {
-    moves->ra = calculate_distance_from_head(stack_a, find_target(a, b));
-    moves->rb = calculate_distance_from_head(stack_b, find_target(b, a));
+    moves->ra = calculate_distance_from_head(stack_a->head, find_target(stack_a, stack_b));
+    moves->rb = calculate_distance_from_head(stack_b->head, find_target(stack_b, stack_a));
     moves->rra = ft_lstsize_int(stack_a) - moves->ra;
     moves->rrb = ft_lstsize_int(stack_b) - moves->rb;
 }
@@ -80,13 +80,15 @@ t_moves assign_cost(t_moves moves)
         cost.rrr = 0;
     }
     // Caso 2: ra + rrb
-    else if (moves.ra + moves.rrb <= moves.rra + moves.rb)
+    else if (moves.rra + moves.rb > moves.ra + moves.rrb)
+
     {
         cost.rr = 0;
         cost.rrr = 0;
         cost.rra = 0;
         cost.rb = 0;
-        // ??? somma di ra e rrb
+        cost.ra = moves.ra + moves.rrb;
+        cost.rrb = 0;
     }
     // Caso 3: rra + rb
     else if (moves.rra + moves.rb < moves.ra + moves.rrb)
@@ -95,7 +97,8 @@ t_moves assign_cost(t_moves moves)
         cost.rrr = 0;
         cost.ra = 0;
         cost.rrb = 0;
-        // ??? somma di rra e rb
+        cost.rra = moves.rra + moves.rb;
+        cost.rb = 0;
     }
     // Caso 4: rra > rrb
     else if (moves.rra > moves.rrb)
@@ -107,40 +110,47 @@ t_moves assign_cost(t_moves moves)
         cost.rb = 0;
         cost.rr = 0;
     }
-    // non so se ritornare il costo come int o come struct
-}
-s_moves min_moves;
-
-while(node_b)
-{
-    moves = numero_mosse(node_b);
-    if (tot_moves(moves) < min_moves)
-    {
-        min_moves = moves;  // mosse da fare per spostarlo
-        best_node = node_b; //nodo da spostare
-    }
-    node_b = node_b->next;
+    return (cost); //ritorno il costo come struct
 }
 
 
-typedef void (*move_fxs)();
+// s_moves min_moves;
 
-void execute_moves(t_moves moves)
-{
-    move_fxs fxs[] = {ra, rb, rra, rrb, rr, rrr};
-    int* cost[] = {&moves.ra, &moves.rb, &moves.rra, &moves.rrb, &moves.rr, &moves.rrr};
-    int i = 0;
+// while(node_b)
+// {
+//     moves = numero_mosse(node_b);
+//     if (tot_moves(moves) < min_moves)
+//     {
+//         min_moves = moves;  // mosse da fare per spostarlo
+//         best_node = node_b; //nodo da spostare
+//     }
+//     node_b = node_b->next;
+// }
 
-    while (i < 6)
-    {
-        while (*cost[i] > 0)
-        {
-            fxs[i]();
-            (*cost[i])--;
-        }
-        i++;
-    }
-}
+
+// typedef void (*move_fxs)();
+
+// void execute_moves(t_moves moves)
+// {
+//     move_fxs fxs[] = {ra, rb, rra, rrb, rr, rrr};
+//     int* cost[] = {&moves.ra, &moves.rb, &moves.rra, &moves.rrb, &moves.rr, &moves.rrr};
+//     int i = 0;
+
+//     while (i < 6)
+//     {
+//         while (*cost[i] > 0)
+//         {
+//             fxs[i]();
+//             (*cost[i])--;
+//         }
+//         i++;
+//     }
+// }
+
+
+
+
+
 /////////////////////
 // versione estesa //
 /////////////////////

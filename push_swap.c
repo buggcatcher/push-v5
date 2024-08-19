@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/07 15:38:25 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:42:42 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int     ft_create_temp_array(t_nodes *stack, int **array)
     return (i);
 }
 
-void ft_print_indices_and_values(t_nodes *stack_a)
+void ft_print_indices_and_values(t_nodes *stack)
 {
-    t_nodes *current = stack_a;
+    t_nodes *current = stack;
 
     while (current != NULL)
     {
@@ -70,7 +70,16 @@ void ft_print_indices_and_values(t_nodes *stack_a)
         current = current->next;
     }
 }
-
+void print_moves_cost(t_moves moves)
+{
+    printf("Cost of moves:\n");
+    printf("ra: %d\n", moves.ra);
+    printf("rb: %d\n", moves.rb);
+    printf("rra: %d\n", moves.rra);
+    printf("rrb: %d\n", moves.rrb);
+    printf("rr: %d\n", moves.rr);
+    printf("rrr: %d\n", moves.rrr);
+}
 
 
 int	main(int argc, char **argv)
@@ -138,10 +147,22 @@ int	main(int argc, char **argv)
     ft_sort_temp_array(temp_array, len);
     //ft_print_temp_array(temp_array, len);
     ft_assign_indices(stack_a, temp_array, len);
-    ft_print_indices_and_values(stack_a);
+    //ft_print_indices_and_values(stack_a);
     printf("\n");
     chunk_size = make_chunks(stack_size);
     push_chunks(&stack_a, &stack_b, stack_size);
+
+    printf("\nstack_a\n");
+	ft_print_nodes(stack_a);
+    ft_print_indices_and_values(stack_a);
+    printf("\nstack_b\n");
+    ft_print_nodes(stack_b);
+    ft_print_indices_and_values(stack_b);
+
+    t_moves moves = {0, 0, 0, 0, 0, 0};
+    target_distance(&moves, stack_a, stack_b);
+    assign_cost(moves);
+    print_moves_cost(moves);
     //exit(1);
 
     // start pushing to a according to the cost of the moves
@@ -164,10 +185,7 @@ int	main(int argc, char **argv)
     // }
     // ft_rotate_to_min
 
-    printf("\nstack_a\n");
-	ft_print_nodes(stack_a); 
-    printf("\nstack_b\n");
-    ft_print_nodes(stack_b);
+
 
     free(array);
     if (free_flag)
