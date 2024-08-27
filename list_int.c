@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:31:43 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/04 17:16:05 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:35:39 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,33 @@ void ft_lstprev(t_nodes *head)
         previous = current;
         current = current->next;
     }
+}
+int ft_lstlast_index(t_nodes *head)
+{
+    t_nodes *current = head;
+
+    if (current == NULL)
+    {
+        return -1; // empty list
+    }
+
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    return current->index;
+}
+
+t_nodes *ft_lstmin_index(t_nodes *stack)
+{
+    t_nodes *current = stack;
+    t_nodes *min = stack;
+
+    while (current != NULL)
+    {
+        if (current->index < min->index)
+            min = current;
+        current = current->next;
+    }
+    return min;
 }

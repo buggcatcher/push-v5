@@ -6,112 +6,114 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:42:51 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/19 17:01:10 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:42:08 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+void print_moves_cost(t_moves moves)
+{
+    printf("\nCost of moves:\n");
+    printf("ra: %d\n", moves.ra);
+    printf("rb: %d\n", moves.rb);
+    printf("rra: %d\n", moves.rra);
+    printf("rrb: %d\n", moves.rrb);
+}
+
 int calculate_distance_from_head(t_nodes *stack, int target)
 {
     int distance_from_head = 0;
-    t_nodes *current;
+    t_nodes *current = stack;
 
-    current = stack->head;
-    while (current && current->index != target)
+    while (current && current->index != target) // attento gli out of boundaries
     {
         distance_from_head++;
         current = current->next;
     }
-
-    return distance_from_head;
+     return distance_from_head;
 }
+
 
 int find_target(t_nodes *stack_a, t_nodes *stack_b)
 {
-    t_nodes *node_a = stack_a->head;
-    t_nodes *node_b = stack_b->head;
-    int counter;
+	int		target;
+	t_nodes	*current_a;
 
-    counter = 0;
-    printf("\nDEBUG: node_b->index: %d\n", node_b->next->index);
-    while (1)
-    {
-        if (counter == ft_lstsize_int(stack_a))
-        {
-            if (node_b->index > node_a->index && node_b->index > stack_a->head->index)
-                return (stack_a->head->index);
 
-            else
-                return (-1);
-        }
-        else
-        {
-            if (node_b->index > node_a->index && node_b->index > node_a->next->index)
-                return (node_a->next->index);
-            else
-                node_a = node_a->next;
-        }
-        counter++;
-    }
-    return (-1); // non dovrebbe mai accadere
+	if (!stack_b)
+		return (-1);
+	current_a = stack_a;
+	target = -1;
+	if (current_a->index > stack_b->index)
+		target = current_a->index;
+	while (current_a)
+	{
+		if (current_a->index > stack_b->index && (target == -1 || current_a->index < target))
+			target = current_a->index;
+		current_a = current_a->next;
+	}
+	if (target != -1)
+		return (target);
+	current_a = ft_lstmin_index(stack_a);
+	if (current_a)
+		return (current_a->index);
+	return (-1);
 }
 
-void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b)
+
+void update_lowest_cost(t_moves *moves, t_nodes *stack_b)
 {
-    moves->ra = calculate_distance_from_head(stack_a->head, find_target(stack_a, stack_b));
-    moves->rb = calculate_distance_from_head(stack_b->head, find_target(stack_b, stack_a));
-    moves->rra = ft_lstsize_int(stack_a) - moves->ra;
-    moves->rrb = ft_lstsize_int(stack_b) - moves->rb;
+	t_nodes *min_moves_node;
+
+	min_moves_node = stack_b;
+	while (stack_b)
+	{
+		if (stack_b->moves.totmoves < min_moves_node->moves.totmoves)
+			min_moves_node = stack_b;
+		stack_b = stack_b->next;
+	}
+	*moves = min_moves_node->moves;
 }
 
-t_moves assign_cost(t_moves moves)
+
+void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b) // gli devi passare un puntatore alla testa
 {
-    t_moves cost = moves;
+	t_nodes	*stack_b_p;
+    int		target_a;
+	int		target_b;
 
-    // Caso 1: ra > rb
-    if (moves.ra > moves.rb)
-    {
-        cost.rr = moves.rb;
-        cost.ra = moves.ra - moves.rb;
-        cost.rb = 0;
-        cost.rra = 0;
-        cost.rrb = 0;
-        cost.rrr = 0;
-    }
-    // Caso 2: ra + rrb
-    else if (moves.rra + moves.rb > moves.ra + moves.rrb)
-
-    {
-        cost.rr = 0;
-        cost.rrr = 0;
-        cost.rra = 0;
-        cost.rb = 0;
-        cost.ra = moves.ra + moves.rrb;
-        cost.rrb = 0;
-    }
-    // Caso 3: rra + rb
-    else if (moves.rra + moves.rb < moves.ra + moves.rrb)
-    {
-        cost.rr = 0;
-        cost.rrr = 0;
-        cost.ra = 0;
-        cost.rrb = 0;
-        cost.rra = moves.rra + moves.rb;
-        cost.rb = 0;
-    }
-    // Caso 4: rra > rrb
-    else if (moves.rra > moves.rrb)
-    {
-        cost.rrr = moves.rrb;
-        cost.rra = moves.rra - moves.rrb;
-        cost.rrb = 0;
-        cost.ra = 0;
-        cost.rb = 0;
-        cost.rr = 0;
-    }
-    return (cost); //ritorno il costo come struct
+	stack_b_p = stack_b;
+	while (stack_b_p)
+	{
+		stack_b_p->moves.totmoves = 0;
+		target_a = find_target(stack_a, stack_b_p);
+		target_b = stack_b_p->index;
+		stack_b_p->moves.ra = calculate_distance_from_head(stack_a, target_a);
+		stack_b_p->moves.rb = calculate_distance_from_head(stack_b, target_b);
+		stack_b_p->moves.rra = ft_lstsize_int(stack_a) - stack_b_p->moves.ra;
+		stack_b_p->moves.rrb = ft_lstsize_int(stack_b) - stack_b_p->moves.rb;
+		if (stack_b_p->moves.ra < stack_b_p->moves.rra)
+			stack_b_p->moves.totmoves += stack_b_p->moves.ra;
+		else
+			stack_b_p->moves.totmoves += stack_b_p->moves.rra;
+		if (stack_b_p->moves.rb < stack_b_p->moves.rrb)
+			stack_b_p->moves.totmoves += stack_b_p->moves.rb;
+		else
+			stack_b_p->moves.totmoves += stack_b_p->moves.rrb;
+	    //printf("DEBUG: \tindex_b = %d\ttarget_a = %d\ttotmoves = %d\n", stack_b_p->index, target_a, stack_b_p->moves.totmoves);
+		stack_b_p = stack_b_p->next;
+	}
+	update_lowest_cost(moves, stack_b);
 }
+
+
+
+
+
+
+
+
 
 
 // s_moves min_moves;
@@ -150,41 +152,51 @@ t_moves assign_cost(t_moves moves)
 
 
 
-
-/////////////////////
-// versione estesa //
-/////////////////////
-// void esegui_moves(s_moves moves)
+// t_moves assign_cost(t_moves moves)
 // {
-//     while(moves.ra > 0)
-//     {
-//         ra();
-//         moves.ra--;
-//     }
-//     while(moves.rb > 0)
-//     {
-//         rb();
-//         moves.rb--;
-//     }
-//     while(moves.rra > 0)
-//     {
-//         rra();
-//         moves.rra--;
-//     }
-//     while(moves.rrb > 0)
-//     {
-//         rrb();
-//         moves.rrb--;
-//     }
-//     while(moves.rr > 0)
-//     {
-//         rr();
-//         moves.rr--;
-//     }
-//     while(moves.rrr > 0)
-//     {
-//         rrr();
-//         moves.rrr--;
-//     }
-// }
+//     t_moves cost = moves;
 
+//     // Caso 1: ra > rb
+//     if (moves.ra > moves.rb)
+//     {
+//         cost.rr = moves.rb;
+//         cost.ra = moves.ra - moves.rb;
+//         cost.rb = 0;
+//         cost.rra = 0;
+//         cost.rrb = 0;
+//         cost.rrr = 0;
+//     }
+//     // Caso 2: ra + rrb
+//     else if (moves.rra + moves.rb > moves.ra + moves.rrb)
+
+//     {
+//         cost.rr = 0;
+//         cost.rrr = 0;
+//         cost.rra = 0;
+//         cost.rb = 0;
+//         cost.ra = moves.ra + moves.rrb;
+//         cost.rrb = 0;
+//     }
+//     // Caso 3: rra + rb
+//     else if (moves.rra + moves.rb < moves.ra + moves.rrb)
+//     {
+//         cost.rr = 0;
+//         cost.rrr = 0;
+//         cost.ra = 0;
+//         cost.rrb = 0;
+//         cost.rra = moves.rra + moves.rb;
+//         cost.rb = 0;
+//     }
+//     // Caso 4: rra > rrb
+//     else if (moves.rra > moves.rrb)
+//     {
+//         cost.rrr = moves.rrb;
+//         cost.rra = moves.rra - moves.rrb;
+//         cost.rrb = 0;
+//         cost.ra = 0;
+//         cost.rb = 0;
+//         cost.rr = 0;
+//     }
+//     print_moves_cost(cost);
+//     return (cost); //ritorno il costo come struct
+// }

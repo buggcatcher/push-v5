@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/19 16:42:42 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:08:37 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,7 @@ void ft_print_indices_and_values(t_nodes *stack)
         current = current->next;
     }
 }
-void print_moves_cost(t_moves moves)
-{
-    printf("Cost of moves:\n");
-    printf("ra: %d\n", moves.ra);
-    printf("rb: %d\n", moves.rb);
-    printf("rra: %d\n", moves.rra);
-    printf("rrb: %d\n", moves.rrb);
-    printf("rr: %d\n", moves.rr);
-    printf("rrr: %d\n", moves.rrr);
-}
+
 
 
 int	main(int argc, char **argv)
@@ -93,7 +84,6 @@ int	main(int argc, char **argv)
     int stack_size = ft_lstsize_int(stack_a);
     int *array = NULL;
     int i;
-    int chunk_size = 0;
     
     free_flag = 0;
     args = ft_arg_checker(argc, argv);
@@ -138,54 +128,50 @@ int	main(int argc, char **argv)
         current = current->next;
     }
 
-    // printf("\nstack_a\n");
-	// ft_print_nodes(stack_a); 
-    // printf("\nstack_b\n");
-    // ft_print_nodes(stack_b);
     len = ft_create_temp_array(stack_a, &temp_array);
     cold_start(temp_array, &stack_a, len);
     ft_sort_temp_array(temp_array, len);
     //ft_print_temp_array(temp_array, len);
     ft_assign_indices(stack_a, temp_array, len);
     //ft_print_indices_and_values(stack_a);
-    printf("\n");
-    chunk_size = make_chunks(stack_size);
     push_chunks(&stack_a, &stack_b, stack_size);
+    ft_sort3(&stack_a);
 
-    printf("\nstack_a\n");
-	ft_print_nodes(stack_a);
-    ft_print_indices_and_values(stack_a);
-    printf("\nstack_b\n");
-    ft_print_nodes(stack_b);
-    ft_print_indices_and_values(stack_b);
+    ft_lstprev(stack_a);
+    ft_lstprev(stack_b);
 
-    t_moves moves = {0, 0, 0, 0, 0, 0};
-    target_distance(&moves, stack_a, stack_b);
-    assign_cost(moves);
-    print_moves_cost(moves);
-    //exit(1);
+    // printf("\nstack_a\n");
+	// ft_print_nodes(stack_a);
+    // ft_print_indices_and_values(stack_a);
+    // printf("\nstack_b\n");
+    // ft_print_nodes(stack_b);
+    // ft_print_indices_and_values(stack_b);
 
-    // start pushing to a according to the cost of the moves
-    // while (stack_b != NULL)
-    // {   
-    //     t_moves cost;
-    //     while(node_b)
-    //     {
-    //     cost = assign_distance(*moves, *stack_a, *stack_b)
-    //     moves = numero_mosse(node_b);
-    //     if (tot_moves(moves) < min_moves)
-    //     {
-    //         min_moves = moves;  // mosse da fare per spostarlo
-    //         best_node = node_b; //nodo da spostare
-    //     }
-    //     node_b = node_b->next;
-    // }
-    //     choose_move(cost);
-    //     execute_moves(min_moves);
-    // }
-    // ft_rotate_to_min
-
-
+    while(stack_b != NULL)
+    {   
+        t_moves moves = {0};
+        target_distance(&moves, stack_a, stack_b);
+        //print_moves_cost(moves);
+        execute_rotations(&moves, &stack_a, &stack_b);
+        pa(&stack_a, &stack_b);
+    }
+    if (!check_order(stack_a))
+    {
+        push_chunks(&stack_a, &stack_b, stack_size);
+        ft_sort3(&stack_a);
+    while(stack_b != NULL)
+    {   
+        t_moves moves = {0};
+        target_distance(&moves, stack_a, stack_b);
+        //print_moves_cost(moves);
+        execute_rotations(&moves, &stack_a, &stack_b);
+        pa(&stack_a, &stack_b);
+    }
+    }
+    else
+    {
+        rotate_to_min(&stack_a);
+    }
 
     free(array);
     if (free_flag)

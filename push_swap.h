@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/19 16:51:06 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:00:09 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 # include "libft/libft.h"
 
+typedef struct s_moves
+{
+	int	ra;
+	int	rb;
+	int	rra;
+	int	rrb;
+	int totmoves;
+} t_moves;
+
 typedef struct s_nodes 
 {
 	int 			value;
@@ -22,25 +31,25 @@ typedef struct s_nodes
 	int				*content;
 	struct s_nodes	*next;
 	struct s_nodes	*prev;
-	struct s_nodes	*head;
-    int				size;
+	t_moves			moves;
 }	t_nodes;
 
-typedef struct s_moves
-{
-	int	ra;
-	int	rb;
-	int	rra;
-	int	rrb;
-	int	rr;
-	int	rrr;
-} t_moves;
 
+void			execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b);
+void			rotate_to_min(t_nodes **stack_a);
+int 			find_min_index(t_nodes *stack);
+int				check_order(t_nodes *stack);
 
 int				calculate_distance_from_head(t_nodes *stack, int target);
 int				find_target(t_nodes *stack_a, t_nodes *stack_b);
 void			target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b);
 t_moves			assign_cost(t_moves moves);
+int 			find_cheapest_move(t_moves *moves);
+void 			execute_cheapest_move(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b);
+void 			execute_moves(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b);
+int				find_min_index(t_nodes *stack);
+int 			is_min_index_on_top(t_nodes *stack);
+void			print_moves_cost(t_moves moves);
 
 int				make_chunks(int count);
 void			push_chunks(t_nodes **stack_a, t_nodes **stack_b, int count);
@@ -85,6 +94,8 @@ void            ft_lstadd_back_int(t_nodes **lst, t_nodes *new);
 int             ft_lstsize_int(t_nodes *lst);
 t_nodes			*ft_lstnew_index(int index);
 void			ft_lstprev(t_nodes *head);
+int				ft_lstlast_index(t_nodes *head);
+t_nodes			*ft_lstmin_index(t_nodes *stack);
 
 int				sa(t_nodes **stack_a);
 int				sb(t_nodes **stack_b);
