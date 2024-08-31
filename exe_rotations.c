@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:57:32 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/27 15:59:25 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:38:46 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
 			moves->rra--;
 		}
 	}
-	if (moves->rb <= moves->rrb)
+	if (moves->rb < moves->rrb)
 	{
 		while (moves->rb > 0)
 		{

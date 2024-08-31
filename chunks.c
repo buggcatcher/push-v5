@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:55:21 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/04 17:21:46 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:05:54 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,21 @@ void	update_chunks(t_nodes **stack_b, int *min_chunk,
 }
 
 
+// divides into two chunks instead of three
+
+// void divide_and_push(t_nodes **stack_a, t_nodes **stack_b) {
+//     int count = ft_lstsize_int(*stack_a);
+//     int mid = count / 2;
+
+//     while (ft_lstsize_int(*stack_a) > 3) {
+//         if ((*stack_a)->index < mid) {
+//             pb(stack_a, stack_b);
+//         } else {
+//             pb(stack_a, stack_b);
+//             rb(stack_b);
+//         }
+//     }
+// }
 
 
 

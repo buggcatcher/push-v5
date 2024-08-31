@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/27 16:08:37 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:31:20 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_print_nodes(t_nodes *stack)
 	printf("[NULL]\n");
 }
 
-
 int     ft_create_temp_array(t_nodes *stack, int **array)
 {
     int len = ft_lstsize_int(stack);
@@ -71,6 +70,17 @@ void ft_print_indices_and_values(t_nodes *stack)
     }
 }
 
+int ft_print_temp_array(int *array, int len)
+{
+    int i = 0;
+
+    while (i < len)
+    {
+        printf("index: %d \t value: %d\n", i, array[i]);
+        i++;
+    }
+    return (0);
+}
 
 
 int	main(int argc, char **argv)
@@ -135,43 +145,34 @@ int	main(int argc, char **argv)
     ft_assign_indices(stack_a, temp_array, len);
     //ft_print_indices_and_values(stack_a);
     push_chunks(&stack_a, &stack_b, stack_size);
+    //divide_and_push(&stack_a, &stack_b);
+
     ft_sort3(&stack_a);
 
     ft_lstprev(stack_a);
     ft_lstprev(stack_b);
 
-    // printf("\nstack_a\n");
-	// ft_print_nodes(stack_a);
-    // ft_print_indices_and_values(stack_a);
-    // printf("\nstack_b\n");
-    // ft_print_nodes(stack_b);
-    // ft_print_indices_and_values(stack_b);
+    printf("\nstack_a\n");
+	ft_print_nodes(stack_a);
+    ft_print_indices_and_values(stack_a);
+    printf("\nstack_b\n");
+    ft_print_nodes(stack_b);
+    ft_print_indices_and_values(stack_b);
+    printf("\n");
 
     while(stack_b != NULL)
-    {   
+    {   //static int i = 1;
         t_moves moves = {0};
         target_distance(&moves, stack_a, stack_b);
         //print_moves_cost(moves);
         execute_rotations(&moves, &stack_a, &stack_b);
+        //printf("DEBUG: push n.%d node (index=%d) of value %d\n", i++, stack_b->index, stack_b->value);
         pa(&stack_a, &stack_b);
     }
-    if (!check_order(stack_a))
-    {
-        push_chunks(&stack_a, &stack_b, stack_size);
-        ft_sort3(&stack_a);
-    while(stack_b != NULL)
-    {   
-        t_moves moves = {0};
-        target_distance(&moves, stack_a, stack_b);
-        //print_moves_cost(moves);
-        execute_rotations(&moves, &stack_a, &stack_b);
-        pa(&stack_a, &stack_b);
-    }
-    }
-    else
-    {
-        rotate_to_min(&stack_a);
-    }
+
+    //check_order(stack_a)
+    rotate_to_min(&stack_a);
+ 
 
     free(array);
     if (free_flag)
