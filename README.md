@@ -3,6 +3,6 @@ In this project, I'll be sorting data on a stack using a limited set of instruct
 
 ![Stack Visualizer](https://i.ibb.co/cXBYVL1/stack-visualizer.png)
 
-![Issue Visualized](
+![Issue Visualized](https://raw.githubusercontent.com/buggcatcher/push-v5/main/issue_visualized.png)
 
 
