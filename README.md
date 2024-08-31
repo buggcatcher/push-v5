@@ -93,7 +93,7 @@ Exec pa pa pa:
 _ _            
 a b             
 -------------------------------------------------------------------------------------------------------            
-This example sort integers from a in 12 instructions.        
+                
         
 
 My approach:        
