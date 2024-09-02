@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/31 19:31:20 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:46:53 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,13 @@ int	main(int argc, char **argv)
     ft_lstprev(stack_a);
     ft_lstprev(stack_b);
 
-    printf("\nstack_a\n");
-	ft_print_nodes(stack_a);
-    ft_print_indices_and_values(stack_a);
-    printf("\nstack_b\n");
-    ft_print_nodes(stack_b);
-    ft_print_indices_and_values(stack_b);
-    printf("\n");
+    // printf("\nstack_a\n");
+    // ft_print_nodes(stack_a);
+    // ft_print_indices_and_values(stack_a);
+    // printf("\nstack_b\n");
+    // ft_print_nodes(stack_b);
+    // ft_print_indices_and_values(stack_b);
+    // printf("\n");
 
     while(stack_b != NULL)
     {   //static int i = 1;
@@ -168,10 +168,19 @@ int	main(int argc, char **argv)
         execute_rotations(&moves, &stack_a, &stack_b);
         //printf("DEBUG: push n.%d node (index=%d) of value %d\n", i++, stack_b->index, stack_b->value);
         pa(&stack_a, &stack_b);
+        ft_putendl_fd("pa", 1);
     }
 
     //check_order(stack_a)
     rotate_to_min(&stack_a);
+
+    // printf("\nstack_a\n");
+    // ft_print_nodes(stack_a);
+    // ft_print_indices_and_values(stack_a);
+    // printf("\nstack_b\n");
+    // ft_print_nodes(stack_b);
+    // ft_print_indices_and_values(stack_b);
+    // printf("\n");
  
 
     free(array);

@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/31 19:07:26 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 10:19:26 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			print_moves_cost(t_moves moves);
 int				make_chunks(int count);
 void			push_chunks(t_nodes **stack_a, t_nodes **stack_b, int count);
 void			update_chunks(t_nodes **stack_b, int *min_chunk, int *step, int *pushed);
-//void 			divide_and_push(t_nodes **stack_a, t_nodes **stack_b);
+void 			divide_and_push(t_nodes **stack_a, t_nodes **stack_b);
 
 void            fill_left(int arr[], int temp_left[], int left, int low);
 void	        fill_right(int arr[], int temp_right[], int right, int middle);

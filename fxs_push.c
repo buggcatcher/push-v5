@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:56:05 by mailinci          #+#    #+#             */
-/*   Updated: 2024/07/23 23:12:58 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:34:19 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	pa(t_nodes **stack_a, t_nodes **stack_b)
 {
 	if (push(stack_b, stack_a) == -1)
 		return (-1);
-	ft_putendl_fd("pa", 1);
 	return (0);
 }
 
@@ -51,6 +50,5 @@ int	pb(t_nodes **stack_a, t_nodes **stack_b)
 {
 	if (push(stack_a, stack_b) == -1)
 		return (-1);
-	ft_putendl_fd("pb", 1);
 	return (0);
 }

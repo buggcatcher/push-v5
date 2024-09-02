@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:57:32 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/27 17:38:46 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:34:03 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
 		while (moves->ra > 0 && moves->rb > 0 && moves->rb < moves->rrb)
 		{
 			rr(stack_a, stack_b);
+			ft_putendl_fd("rr", 1);
 			moves->ra--;
 			moves->rb--;
 		}
 		while (moves->ra > 0)
 		{
 			ra(stack_a);
+			ft_putendl_fd("ra", 1);
 			moves->ra--;
 		}
 	}
@@ -33,12 +35,14 @@ void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
 		while (moves->rra > 0 && moves->rrb > 0 && moves->rrb < moves->rb)
 		{
 			rrr(stack_a, stack_b);
+		    ft_putendl_fd("rrr", 1);
 			moves->rra--;
 			moves->rrb--;
 		}
 		while (moves->rra > 0)
 		{
 			rra(stack_a);
+		    ft_putendl_fd("rra", 1);
 			moves->rra--;
 		}
 	}
@@ -47,6 +51,7 @@ void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
 		while (moves->rb > 0)
 		{
 			rb(stack_b);
+			ft_putendl_fd("rb", 1);
 			moves->rb--;
 		}
 	}
@@ -55,6 +60,7 @@ void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
 		while (moves->rrb > 0)
 		{
 			rrb(stack_b);
+		    ft_putendl_fd("rrb", 1);
 			moves->rrb--;
 		}
 	}
@@ -74,6 +80,7 @@ void rotate_to_min(t_nodes **stack_a)
 		while (current->index != min_index)
 		{
 			rra(stack_a);
+			ft_putendl_fd("rra", 1);
 			current = *stack_a;
 		}
 	}
@@ -82,6 +89,7 @@ void rotate_to_min(t_nodes **stack_a)
 		while (current->index != min_index)
 		{
 			ra(stack_a);
+			ft_putendl_fd("ra", 1);
 			current = *stack_a;
 		}
 	}

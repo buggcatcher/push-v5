@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:25:32 by mailinci          #+#    #+#             */
-/*   Updated: 2024/07/23 23:13:43 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:38:48 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int sa(t_nodes **stack_a)
     first->next = second->next;
     second->next = first;
     *stack_a = second;
-    ft_putendl_fd("sa", 1);
     return 1;
 }
 
@@ -40,7 +39,6 @@ int sb(t_nodes **stack_b)
     first->next = second->next;
     second->next = first;
     *stack_b = second;
-    ft_putendl_fd("sb", 1);
     return 1;
 }
 
@@ -51,6 +49,5 @@ int ss(t_nodes **stack_a, t_nodes **stack_b)
 
     result_a = sa(stack_a);
     result_b = sb(stack_b);
-    ft_putendl_fd("ss", 1);
     return result_a && result_b;
 }

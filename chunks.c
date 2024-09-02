@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:55:21 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/31 19:05:54 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:46:04 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,14 @@ void	push_chunks(t_nodes	**stack_a, t_nodes **stack_b, int count)
 			&& (*stack_a)->index <= (count - 3))
 		{
 			pb(stack_a, stack_b);
+			ft_putendl_fd("pb", 1);
 			pushed++;
 		}
 		else
+		{
 			ra(stack_a);
+			ft_putendl_fd("ra", 1);
+		}
 		update_chunks(stack_b, &min_chunk, &step, &pushed);
 	}
 }
@@ -55,7 +59,10 @@ void	update_chunks(t_nodes **stack_b, int *min_chunk,
 	if (*stack_b && (*stack_b)->index && ft_lstsize_int(*stack_b) > 1
 		&& (*stack_b)->index >= *min_chunk
 		&& (*stack_b)->index < (*min_chunk + *step))
+	{
 		rb(stack_b);
+		ft_putendl_fd("rb", 1);
+	}
 	if (*pushed == (*min_chunk + *step + *step - 1))
 	{
 		*min_chunk += (*step * 2);

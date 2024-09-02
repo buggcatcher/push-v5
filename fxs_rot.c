@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:42:17 by mailinci          #+#    #+#             */
-/*   Updated: 2024/07/23 23:13:35 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:25:07 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void ra(t_nodes **stack_a)
         last = last->next;
     last->next = first;
     first->next = NULL;
-    ft_putendl_fd("ra", 1);
 }
 
 void rb(t_nodes **stack_b)
@@ -43,14 +42,12 @@ void rb(t_nodes **stack_b)
         last = last->next;
     last->next = first;
     first->next = NULL;
-    ft_putendl_fd("rb", 1);
 }
 
 void rr(t_nodes **stack_a, t_nodes **stack_b)
 {
     ra(stack_a);
     rb(stack_b);
-    ft_putendl_fd("rr", 1);
 }
 
 
