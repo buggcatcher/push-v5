@@ -6,32 +6,25 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:42:51 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/01 12:17:20 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:53:50 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void print_moves_cost(t_moves moves)
-{
-    printf("\nCost of moves:\n");
-    printf("ra: %d\n", moves.ra);
-    printf("rb: %d\n", moves.rb);
-    printf("rra: %d\n", moves.rra);
-    printf("rrb: %d\n", moves.rrb);
-}
-
 int calculate_distance_from_head(t_nodes *stack, int target)
 {
-    int distance_from_head = 0;
-    t_nodes *current = stack;
+    int distance_from_head;
+    t_nodes *current;
 
-    while (current && current->index != target) // attento gli out of boundaries
+	distance_from_head = 0;
+	current = stack;
+    while (current && current->index != target)
     {
         distance_from_head++;
         current = current->next;
     }
-     return distance_from_head;
+     return (distance_from_head);
 }
 
 
@@ -77,7 +70,7 @@ void update_lowest_cost(t_moves *moves, t_nodes *stack_b)
 }
 
 
-void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b) // gli devi passare un puntatore alla testa
+void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b)
 {
 	t_nodes	*stack_b_p;
     int		target_a;
@@ -101,7 +94,6 @@ void target_distance(t_moves *moves, t_nodes *stack_a, t_nodes *stack_b) // gli 
 			stack_b_p->moves.totmoves += stack_b_p->moves.rb;
 		else
 			stack_b_p->moves.totmoves += stack_b_p->moves.rrb;
-	    //printf("DEBUG: \tindex_b = %d\ttarget_a = %d\ttotmoves = %d\n", stack_b_p->index, target_a, stack_b_p->moves.totmoves);
 		stack_b_p = stack_b_p->next;
 	}
 	update_lowest_cost(moves, stack_b);

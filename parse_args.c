@@ -6,20 +6,11 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 10:57:55 by mailinci          #+#    #+#             */
-/*   Updated: 2024/08/01 19:21:17 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:44:14 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-in ft_order_check: 0 disordinato, 1 ordinato
 
-nel caso in cui l'input sia una stringa vuota stampo:
-"Usage: ./push_swap <numbers>\n" oppure "Error: No stack found\n"
-forse dovrei controllarli assieme e stampare un solo messaggio di errore
-controllando se il primo char e' \0 con: (argc == 2 && !argv[1][0])
-
-
-*/
 
 #include "push_swap.h"
 
@@ -60,6 +51,12 @@ char	**ft_usage_check(int argc, char **argv)
 	if (argc == 2)
 	{
 		args = ft_split(argv[1], ' ');
+		if (!args)
+		{
+			ft_printf("Error: Memory allocation failed\n");
+			free_split(args);
+			exit(1);
+		}
 	}
 	else
 	{
@@ -67,34 +64,58 @@ char	**ft_usage_check(int argc, char **argv)
 		if (argc == 1)
 		{
 			ft_printf("Usage: ./push_swap <numbers>\n");
+			free_split(args);
 			exit(1);
 		}
 	}
 	return (args);
 }
-
-char	**ft_arg_checker(int argc, char **argv)
+char **ft_arg_checker(int argc, char **argv)
 {
-	int		i;
-	long	tmp;
-	char	**args;
+    int i;
+    long tmp;
+    char **args;
 
-	i = 0;
-	args = ft_usage_check(argc, argv);
-	while (args[i])
-	{
-		if (!ft_isnum(args[i]))
-		{
-			ft_printf("Error: Invalid stack. Only numbers allowed\n");
-			exit(1);
-		}
-		tmp = ft_atoi_minmax(args[i]);
-		if (ft_isdup(tmp, args, i))
-		{
-			ft_printf("Error: Invalid stack. Contains duplicate\n");
-			exit(1);
-		}
-		i++;
-	}
-	return (args);
+    i = 0;
+    args = ft_usage_check(argc, argv);
+    while (args[++i])
+    {
+        if (!ft_isnum(args[i]))
+        {
+            ft_printf("Error: Invalid stack. Only numbers allowed\n");
+            if (argc == 2)
+				free_split(args);
+            exit(1);
+        }
+        tmp = ft_atoi_minmax(args[i]);
+        if (ft_isdup(tmp, args, i))
+        {
+            ft_printf("Error: Invalid stack. Contains duplicate\n");
+            if (argc == 2)
+				free_split(args);
+            exit(1);
+        }
+    }
+    return (args);
+}
+
+int validate_stack(void *stack_a, int free_flag, void *args)
+{
+    if (ft_order_check(stack_a) || ft_lstsize_int(stack_a) == 1)
+    {
+        ft_printf("Error: stack already ordered\n");
+        if (free_flag)
+            free(args);
+        exit(1);
+    }
+
+    if (!stack_a)
+    {
+        ft_printf("Error: No stack found\n");
+        if (free_flag)
+            free(args);
+        exit (1);
+    }
+
+    return 0;
 }

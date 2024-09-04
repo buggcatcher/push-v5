@@ -6,67 +6,51 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:57:32 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/01 12:34:03 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:38:10 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
+void	perform_rrb(t_moves *moves, t_nodes **stack_b)
 {
-	if (moves->ra < moves->rra)
+    while (moves->rrb > 0)
+	{
+        rrb(stack_b);
+        ft_putendl_fd("rrb", 1);
+        moves->rrb--;
+    }
+}
+
+void	execute_rotations(t_moves *moves, t_nodes **stack_a, t_nodes **stack_b)
+{
+    if (moves->ra < moves->rra)
 	{
 		while (moves->ra > 0 && moves->rb > 0 && moves->rb < moves->rrb)
-		{
-			rr(stack_a, stack_b);
-			ft_putendl_fd("rr", 1);
-			moves->ra--;
-			moves->rb--;
-		}
-		while (moves->ra > 0)
-		{
-			ra(stack_a);
-			ft_putendl_fd("ra", 1);
-			moves->ra--;
-		}
-	}
+        	perform_rr(moves, stack_a, stack_b);
+		while (moves-> ra > 0)
+        	perform_ra(moves, stack_a);
+    }
 	else
 	{
 		while (moves->rra > 0 && moves->rrb > 0 && moves->rrb < moves->rb)
-		{
-			rrr(stack_a, stack_b);
-		    ft_putendl_fd("rrr", 1);
-			moves->rra--;
-			moves->rrb--;
-		}
+        	perform_rrr(moves, stack_a, stack_b);
 		while (moves->rra > 0)
-		{
-			rra(stack_a);
-		    ft_putendl_fd("rra", 1);
-			moves->rra--;
-		}
-	}
-	if (moves->rb < moves->rrb)
+        	perform_rra(moves, stack_a);
+    }
+    if (moves->rb < moves->rrb)
 	{
 		while (moves->rb > 0)
-		{
-			rb(stack_b);
-			ft_putendl_fd("rb", 1);
-			moves->rb--;
-		}
-	}
+        	perform_rb(moves, stack_b);
+    }
 	else
 	{
 		while (moves->rrb > 0)
-		{
-			rrb(stack_b);
-		    ft_putendl_fd("rrb", 1);
-			moves->rrb--;
-		}
-	}
-	//print_moves_cost(*moves);
+        	perform_rrb(moves, stack_b);
+    }
 }
-void rotate_to_min(t_nodes **stack_a)
+
+void	rotate_to_min(t_nodes **stack_a)
 {
 	int min_index;
 	int distance_from_head;

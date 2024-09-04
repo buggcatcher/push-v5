@@ -8,12 +8,7 @@ google searches:
 static variable declaration inizilization c
 const variable declaration inizilization c
 
-momento
-momento
-momento
-make file da aggiustare!
-make file da aggiustare!
-make file da aggiustare!
+
 
 vizualiser
 https://push-swap-visualizer.vercel.app/
@@ -95,3 +90,53 @@ Caso 4: rra > rrb
     Se rra > rrb, rrr diventa rrb, e riduco rra di rrb, azzerando rrb.
     Altrimenti, rrr diventa rra, e riduco rrb di rra, azzerando rra.
     Imposto ra e rb a zero.
+
+sostituisci head con un puntatore che punta alla cimadella lista
+considera di utilizzare size al di fuori della struttura
+
+per il find target comparo se il nodo b e' maggiore del nodo a
+                         e se il nodo b e' maggiore della testa dello stack_a
+                    se e' vero ritorno la testa
+                    altrimenti ritorna errore
+altrimenti se il nodo b e' maggiore del nodo a 
+         e se il nodo b e' maggiore del nodo successivo di a
+    se e' vero ritorno il nodo successivo di a
+    altrimenti imposto il nodo a al nodo successivo
+
+se dovessi rifare questo progetto userei le liste circolari
+            
+
+shift + tab toglie i tab dalla colonna selezionata
+
+
+in ft_order_check: 0 disordinato, 1 ordinato
+nel caso in cui l'input sia una stringa vuota stampo:
+"Usage: ./push_swap <numbers>\n" oppure "Error: No stack found\n"
+forse dovrei controllarli assieme e stampare un solo messaggio di errore
+controllando se il primo char e' \0 con: (argc == 2 && !argv[1][0])
+
+
+momento
+momento
+momento
+make file da aggiustare!
+make file da aggiustare!
+make file da aggiustare!
+bonus elimina .o
+
+
+
+valgind
+allo stato corrente ho:
+37 allocs, 31 frees, 628 bytes allocated
+10 bytes in 5 blocks are indirectly lost in loss record 1 of 2
+66 (56 direct, 10 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+nella funzione ft_usage_check (parse_args.c:53)
+mi trovo davanti a un bivio:
+o cambio cleanup (inizialization.c:76) facendo
+if (free_flag)
+    free_split(&args);
+che mi moltiplica gli errori o trovo un'altra strada.
+
+
+norminette

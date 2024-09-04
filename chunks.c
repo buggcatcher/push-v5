@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:55:21 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/01 12:46:04 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:30:33 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	push_chunks(t_nodes	**stack_a, t_nodes **stack_b, int count)
 	step = make_chunks(count);
 	while (pushed < (count - 3) && !ft_order_check(*stack_a))
 	{
-		//printf("DEBUG index: %d\tvalue: %d\n", (*stack_a)->index, (*stack_a)->value);
 		if ((*stack_a)->index >= min_chunk
 			&& ((*stack_a)->index) < (min_chunk + step + step)
 			&& (*stack_a)->index <= (count - 3))
@@ -69,23 +68,6 @@ void	update_chunks(t_nodes **stack_b, int *min_chunk,
 		*step = (*step / 3) + (*step % 3);
 	}
 }
-
-
-// divides into two chunks instead of three
-
-// void divide_and_push(t_nodes **stack_a, t_nodes **stack_b) {
-//     int count = ft_lstsize_int(*stack_a);
-//     int mid = count / 2;
-
-//     while (ft_lstsize_int(*stack_a) > 3) {
-//         if ((*stack_a)->index < mid) {
-//             pb(stack_a, stack_b);
-//         } else {
-//             pb(stack_a, stack_b);
-//             rb(stack_b);
-//         }
-//     }
-// }
 
 
 

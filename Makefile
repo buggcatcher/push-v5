@@ -2,13 +2,15 @@ NAME = push_swap
 LIBFT = libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-SRCS = 	push_swap.c parse_args.c parse_atoi.c list_int.c \
+SRCS = 	main.c parse_args.c parse_atoi.c list_int.c \
 		fxs_push.c fxs_swap.c fxs_rot.c fxs_revrot.c \
-		sort_few.c moves_cost.c sort_index.c chunks.c
+		sort_few.c sort_few2.c sort_index.c sort_index2.c \
+		moves_cost.c chunks.c exe_rotations.c exe_rotations2.c \
+		initialization.c
 OBJS = $(SRCS:.c=.o)
 
 
-all: pirate $(NAME)
+all:  $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
