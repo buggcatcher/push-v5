@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:52:26 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/04 17:48:28 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/05 23:52:33 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,16 @@ int	main(int argc, char **argv)
     temp_array = NULL;
     len = 0;
     array = NULL;
+    // check argv for errors
+    ft_atoi_minmax(argv[0]);
 	initialize_stacks(argc, argv, &stack_a, &stack_b, &free_flag, &args);
 	validate_stack(stack_a, free_flag, args);
     stack_size = ft_lstsize_int(stack_a);
     array = malloc(sizeof(int) * stack_size);
-    if (!array)
-    {
-        ft_printf("Error: Memory allocation failed\n");
-        if (free_flag)
-            free_split(args);
-        exit(1);
-    }
     process_stack(array, free_flag, *args, stack_a, &temp_array);
     push_chunks(&stack_a, &stack_b, stack_size);
 	sort_stacks(&stack_a, &stack_b);
     rotate_to_min(&stack_a);
-    cleanup(array, *args, free_flag, stack_a, stack_b);
+    cleanup(array, args, free_flag, stack_a, stack_b);
     return (0);
 }

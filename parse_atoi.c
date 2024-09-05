@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi_parse.c                                       :+:      :+:    :+:   */
+/*   parse_atoi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 11:11:23 by mailinci          #+#    #+#             */
-/*   Updated: 2024/07/06 14:33:55 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/05 23:30:10 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,21 @@ void	handle_error(const char *message)
 int	parse_sign(const char *str, int *index)
 {
 	int	sign;
+	int	count_minus;
 
 	sign = 1;
-	if (str[*index] == '+')
-		(*index)++;
-	else if (str[*index] == '-')
+	count_minus = 0;
+	while (str[*index] == '+' || str[*index] == '-')
 	{
-		sign = -1;
+		if (str[*index] == '-')
+			count_minus++;
 		(*index)++;
 	}
+	if (count_minus % 2 != 0)
+		sign = -1;
 	return (sign);
 }
+
 
 unsigned long	parse_number(const char *str, int *index)
 {

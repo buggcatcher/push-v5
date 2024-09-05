@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:20:50 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/04 17:55:54 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 00:11:48 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void populate_array(t_nodes *stack_a, int *array)
     }
 }
 
-void cleanup(int *array, char *args, int free_flag, t_nodes *stack_a, t_nodes *stack_b)
+void cleanup(int *array, char **args, int free_flag, t_nodes *stack_a, t_nodes *stack_b)
 {
     free(array);
     if (free_flag)
-        free(args);
+        free_split(args);
     ft_lstclear_int(&stack_a);
     ft_lstclear_int(&stack_b);
 }

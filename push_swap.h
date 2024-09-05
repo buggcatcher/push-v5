@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/04 17:35:24 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/05 23:10:57 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int				handle_memory_allocation_error(void *array, int free_flag, \
 				void *args);
 void 			sort_stacks(t_nodes **stack_a, t_nodes **stack_b);
 void			populate_array(t_nodes *stack_a, int *array);
-void 			cleanup(int *array, char *args, int free_flag, t_nodes *stack_a, \
+void 			cleanup(int *array, char **args, int free_flag, t_nodes *stack_a, \
 				t_nodes *stack_b);
 
 int			    ft_create_temp_array(t_nodes *stack, int **array);

@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 10:57:55 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/04 17:44:14 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 00:07:47 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 int	ft_isdup(int num, char **argv, int i)
 {
-	i++;
-	while (argv[i])
+	int j = 0;
+	while (argv[j])
 	{
-		if (ft_atoi(argv[i]) == num)
+		if (j != i && ft_atoi_minmax(argv[j]) == num)
 			return (1);
-		i++;
+		j++;
 	}
 	return (0);
 }
@@ -105,10 +105,13 @@ int validate_stack(void *stack_a, int free_flag, void *args)
     {
         ft_printf("Error: stack already ordered\n");
         if (free_flag)
-            free(args);
-        exit(1);
+        {
+			printf("freeing args\n");
+			free_split(args);
+    		ft_lstclear_int(stack_a);
+		}
+		exit(1);
     }
-
     if (!stack_a)
     {
         ft_printf("Error: No stack found\n");
@@ -116,6 +119,5 @@ int validate_stack(void *stack_a, int free_flag, void *args)
             free(args);
         exit (1);
     }
-
-    return 0;
+    return (0);
 }

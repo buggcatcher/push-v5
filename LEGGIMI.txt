@@ -124,19 +124,10 @@ make file da aggiustare!
 make file da aggiustare!
 bonus elimina .o
 
+leaks:
+letters
+int max
 
-
-valgind
-allo stato corrente ho:
-37 allocs, 31 frees, 628 bytes allocated
-10 bytes in 5 blocks are indirectly lost in loss record 1 of 2
-66 (56 direct, 10 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
-nella funzione ft_usage_check (parse_args.c:53)
-mi trovo davanti a un bivio:
-o cambio cleanup (inizialization.c:76) facendo
-if (free_flag)
-    free_split(&args);
-che mi moltiplica gli errori o trovo un'altra strada.
-
+valgind e' ok con uno stack normale, sono da gestire i casi particolari 
 
 norminette
