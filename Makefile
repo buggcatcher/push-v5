@@ -2,7 +2,7 @@ NAME = push_swap
 LIBFT = libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-SRCS = 	main.c parse_args.c parse_atoi.c list_int.c \
+SRCS = 	main.c parse_args.c parse_args2.c parse_atoi.c list_int.c \
 		fxs_push.c fxs_swap.c fxs_rot.c fxs_revrot.c \
 		sort_few.c sort_few2.c sort_index.c sort_index2.c \
 		moves_cost.c chunks.c exe_rotations.c exe_rotations2.c \

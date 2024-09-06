@@ -6,17 +6,11 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 11:11:23 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/05 23:30:10 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:30:57 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	handle_error(const char *message)
-{
-	ft_printf("Error: %s\n", message);
-	exit(1);
-}
 
 int	parse_sign(const char *str, int *index)
 {
@@ -46,12 +40,12 @@ unsigned long	parse_number(const char *str, int *index)
 	{
 		if (result > (unsigned long)INT_MAX)
 		{
-			handle_error("out of range");
+			error_handler("range");
 		}
 		result = result * 10 + str[*index] - '0';
 		if (result > (unsigned long)INT_MAX)
 		{
-			handle_error("out of range");
+			error_handler("range");
 		}
 		(*index)++;
 	}
@@ -75,7 +69,7 @@ int	ft_atoi_minmax(const char *str)
 	result = parse_number(str, &i);
 	if (sign == -1 && result > (unsigned long)INT_MIN)
 	{
-		handle_error("out of range");
+		error_handler("range");
 	}
 	return (sign * (int)result);
 }

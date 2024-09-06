@@ -6,13 +6,48 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 10:57:55 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/06 00:07:47 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:57:47 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
 #include "push_swap.h"
+
+void free_args(char **args)
+{
+    int i = 0;
+    if (args)
+    {
+        while (args[i])
+        {
+            free(args[i]);
+            i++;
+        }
+        free(args);
+    }
+}
+
+void error_handler(const char *error_type)
+{
+    if (ft_strcmp(error_type, "mem") == 0)
+        ft_printf("Error: Memory allocation failed\n");
+    else if (ft_strcmp(error_type, "invalid") == 0)
+        ft_printf("Error: Invalid arguments\n");
+    else if (ft_strcmp(error_type, "usage") == 0)
+        ft_printf("Usage: ./push_swap <numbers>\n");
+    else if (ft_strcmp(error_type, "range") == 0)
+        ft_printf("Error: Number out of range\n");
+    else if (ft_strcmp(error_type, "char") == 0)
+        ft_printf("Error: Only numbers allowed\n");
+    else if (ft_strcmp(error_type, "dup") == 0)
+        ft_printf("Error: Contains duplicate\n");
+    else if (ft_strcmp(error_type, "order") == 0)
+        ft_printf("Error: stack already ordered\n");
+    else if (ft_strcmp(error_type, "no_stack") == 0)
+        ft_printf("Error: No stack found\n");
+    exit(1);
+}
 
 int	ft_isdup(int num, char **argv, int i)
 {
@@ -26,50 +61,6 @@ int	ft_isdup(int num, char **argv, int i)
 	return (0);
 }
 
-int	ft_order_check(t_nodes *stack)
-{
-	t_nodes	*current;
-
-	current = stack;
-	while (current && current->next)
-	{
-		if (current->value > current->next->value)
-		{
-			return (0);
-		}
-		current = current->next;
-	}
-	if (current != NULL)
-		return (1);
-	return (0);
-}
-
-char	**ft_usage_check(int argc, char **argv)
-{
-	char	**args;
-
-	if (argc == 2)
-	{
-		args = ft_split(argv[1], ' ');
-		if (!args)
-		{
-			ft_printf("Error: Memory allocation failed\n");
-			free_split(args);
-			exit(1);
-		}
-	}
-	else
-	{
-		args = argv + 1;
-		if (argc == 1)
-		{
-			ft_printf("Usage: ./push_swap <numbers>\n");
-			free_split(args);
-			exit(1);
-		}
-	}
-	return (args);
-}
 char **ft_arg_checker(int argc, char **argv)
 {
     int i;
@@ -82,42 +73,43 @@ char **ft_arg_checker(int argc, char **argv)
     {
         if (!ft_isnum(args[i]))
         {
-            ft_printf("Error: Invalid stack. Only numbers allowed\n");
             if (argc == 2)
 				free_split(args);
-            exit(1);
+            error_handler("char");
         }
         tmp = ft_atoi_minmax(args[i]);
         if (ft_isdup(tmp, args, i))
         {
-            ft_printf("Error: Invalid stack. Contains duplicate\n");
             if (argc == 2)
 				free_split(args);
-            exit(1);
+            error_handler("dup");
         }
     }
     return (args);
 }
 
-int validate_stack(void *stack_a, int free_flag, void *args)
+int validate_stack(t_nodes *stack_a, int free_flag, char **args)
 {
     if (ft_order_check(stack_a) || ft_lstsize_int(stack_a) == 1)
     {
-        ft_printf("Error: stack already ordered\n");
-        if (free_flag)
+        while (stack_a)
         {
-			printf("freeing args\n");
-			free_split(args);
-    		ft_lstclear_int(stack_a);
-		}
-		exit(1);
+            t_nodes *temp = stack_a;
+            stack_a = stack_a->next;
+            free(temp);
+        }
+        if (free_flag)
+            free_split(args);
+        error_handler("order");
     }
     if (!stack_a)
     {
-        ft_printf("Error: No stack found\n");
+
         if (free_flag)
-            free(args);
-        exit (1);
+            free_split(args);
+        error_handler("no_stack");
     }
     return (0);
 }
+
+

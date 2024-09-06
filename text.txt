@@ -1,0 +1,240 @@
+
+sto avendo qualche problema con il parsing e la gestione dei casi limite nel mio push_swap.
+ecco la combinazione di caratteri che ho trovato che una volta e seguito il programma mi ritornano delle code incorrette:
+
+1 0 1       non rileva duplicati e comincia a sortare;
+"1" "0" "1" non rileva duplicati e comincia a sortare;
+0 1 0       non rileva duplicati e non ritorna nulla;
+--1 0 3 2   ciclo ra infinito, se aggiungo numeri funziona;
+-2 0 --1    contains duplicate anziche' cominciare a sortare;
+--2 --1     only number allowed anziche' cominciare a sortare;
+++2 +1 0    non ritorna nulla anziche' cominciare a sortare;
+--2 -1 0    ra anziche' already ordered.
+
+un problema potrebbe essere nel parsing dei caratteri + e - consecutivi. un'altro problema potrebbe essere che il codice mi rileva 0 e 1 come condizioni particolari. potrei sbagliarmi.
+
+typedef struct s_nodes 
+{
+	int 			value;
+	int				index;
+	int				*content;
+	struct s_nodes	*next;
+	struct s_nodes	*prev;
+	t_moves			moves;
+}	t_nodes;
+
+
+int	ft_isdup(int num, char **argv, int i)
+{
+	i++;
+	while (argv[i])
+	{
+		if (ft_atoi(argv[i]) == num)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_order_check(t_nodes *stack)
+{
+	t_nodes	*current;
+
+	current = stack;
+	while (current && current->next)
+	{
+		if (current->value > current->next->value)
+		{
+			return (0);
+		}
+		current = current->next;
+	}
+	if (current != NULL)
+		return (1);
+	return (0);
+}
+
+char	**ft_usage_check(int argc, char **argv)
+{
+	char	**args;
+
+	if (argc == 2)
+	{
+		args = ft_split(argv[1], ' ');
+		if (!args)
+		{
+			ft_printf("Error: Memory allocation failed\n");
+			free_split(args);
+			exit(1);
+		}
+	}
+	else
+	{
+		args = argv + 1;
+		if (argc == 1)
+		{
+			ft_printf("Usage: ./push_swap <numbers>\n");
+			free_split(args);
+			exit(1);
+		}
+	}
+	return (args);
+}
+char **ft_arg_checker(int argc, char **argv)
+{
+    int i;
+    long tmp;
+    char **args;
+
+    i = 0;
+    args = ft_usage_check(argc, argv);
+    while (args[++i])
+    {
+        if (!ft_isnum(args[i]))
+        {
+            ft_printf("Error: Invalid stack. Only numbers allowed\n");
+            if (argc == 2)
+				free_split(args);
+            exit(1);
+        }
+        tmp = ft_atoi_minmax(args[i]);
+        if (ft_isdup(tmp, args, i))
+        {
+            ft_printf("Error: Invalid stack. Contains duplicate\n");
+            if (argc == 2)
+				free_split(args);
+            exit(1);
+        }
+    }
+    return (args);
+}
+
+int validate_stack(void *stack_a, int free_flag, void *args)
+{
+    if (ft_order_check(stack_a) || ft_lstsize_int(stack_a) == 1)
+    {
+        ft_printf("Error: stack already ordered\n");
+        if (free_flag)
+            free(args);
+        exit(1);
+    }
+
+    if (!stack_a)
+    {
+        ft_printf("Error: No stack found\n");
+        if (free_flag)
+            free(args);
+        exit (1);
+    }
+
+    return 0;
+}
+
+
+void	handle_error(const char *message)
+{
+	ft_printf("Error: %s\n", message);
+	exit(1);
+}
+
+int	parse_sign(const char *str, int *index)
+{
+	int	sign;
+
+	sign = 1;
+	if (str[*index] == '+')
+	{
+		while (str[*index] == '+')
+			(*index)++;
+	}
+	else if (str[*index] == '-')
+	{
+		while (str[*index] == '-')
+		{
+			sign = -1;
+			(*index)++;
+		}
+	}
+	return (sign);
+}
+
+unsigned long	parse_number(const char *str, int *index)
+{
+	unsigned long	result;
+
+	result = 0;
+	while (ft_isdigit(str[*index]))
+	{
+		if (result > (unsigned long)INT_MAX)
+		{
+			handle_error("out of range");
+		}
+		result = result * 10 + str[*index] - '0';
+		if (result > (unsigned long)INT_MAX)
+		{
+			handle_error("out of range");
+		}
+		(*index)++;
+	}
+	return (result);
+}
+
+int	ft_atoi_minmax(const char *str)
+{
+	int				i;
+	int				sign;
+	unsigned long	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+	{
+		i++;
+	}
+	sign = parse_sign(str, &i);
+	result = parse_number(str, &i);
+	if (sign == -1 && result > (unsigned long)INT_MIN)
+	{
+		handle_error("out of range");
+	}
+	return (sign * (int)result);
+}
+
+t_nodes	*ft_createstack_a(char **args)
+{
+	t_nodes	*stack_a;
+	t_nodes	*value;
+	int		num;
+	int		i;
+
+	stack_a = NULL;
+	i = 0;
+	while (args[i] != NULL)
+	{
+        num = ft_atoi_minmax(args[i]);
+		value = ft_lstnew_int(num);
+        if (!value)
+        {
+            ft_printf("Error: Memory allocation failed\n");
+            exit(1);
+        }
+		ft_lstadd_back_int(&stack_a, value);
+		i++;
+	}
+	return (stack_a);
+}
+
+void initialize_stacks(int argc, char **argv, t_nodes **stack_a, t_nodes **stack_b, int *free_flag, char ***args)
+{
+    *free_flag = 0;
+    *args = ft_arg_checker(argc, argv);
+
+    if (argc == 2 && *args != argv)
+        *free_flag = 1;
+
+    *stack_a = ft_createstack_a(*args);
+    *stack_b = NULL;
+}
+
+

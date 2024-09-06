@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:20:50 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/06 00:11:48 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:54:46 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void initialize_stacks(int argc, char **argv, t_nodes **stack_a, t_nodes **stack_b, int *free_flag, char ***args)
 {
+    
     *free_flag = 0;
+    check_for_letters(argv);
     *args = ft_arg_checker(argc, argv);
-
+    if (argc == 1)
+        exit (1);
     if (argc == 2 && *args != argv)
         *free_flag = 1;
-
     *stack_a = ft_createstack_a(*args);
     *stack_b = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:17:08 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/05 23:10:57 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:13:26 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int             ft_sort2(t_nodes **stack_a);
 void            ft_sort3(t_nodes **stack_a);
 void			process_stack(int *array, int free_flag, char *args, \
 				t_nodes *stack_a, int **temp_array);
+void			check_for_letters(char **argv);
 
 void			sort_case_1(t_nodes **stack_a);
 void			sort_case_2(t_nodes **stack_a);
@@ -112,7 +113,8 @@ int	            ft_isdup(int num, char **argv, int i);
 int				ft_order_check(t_nodes *stack);
 char			**ft_usage_check(int argc, char **argv);
 char			**ft_arg_checker(int argc, char **argv);
-int				validate_stack(void *stack_a, int free_flag, void *args);
+int				validate_stack(t_nodes *stack_a, int free_flag, char **args);
+
 
 t_nodes			*ft_createstack_a(char **args);
 t_nodes         *ft_lstnew_int(int value);
@@ -136,6 +138,10 @@ void 			cleanup(int *array, char **args, int free_flag, t_nodes *stack_a, \
 				t_nodes *stack_b);
 
 int			    ft_create_temp_array(t_nodes *stack, int **array);
+void			handle_error(const char *message);
+void 			error_handler(const char *error_type);
+void 			free_args(char **args);
+
 
 int				sa(t_nodes **stack_a);
 int				sb(t_nodes **stack_b);

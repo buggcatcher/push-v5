@@ -124,10 +124,14 @@ make file da aggiustare!
 make file da aggiustare!
 bonus elimina .o
 
-leaks:
-letters
-int max
 
-valgind e' ok con uno stack normale, sono da gestire i casi particolari 
+ fd2 error
 
 norminette
+
+
+
+valgrind ./push_swap "+2147483647 -2147483648"
+valgrind ./push_swap "+2147483647 -2147483649"
+valgrind ./push_swap "+2147483647 -21474836481"
+valgrind ./push_swap "1 2 3 4 55555555555555555555555555555555555555555555 6 7 8"
