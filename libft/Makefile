@@ -8,8 +8,9 @@ SRCS = 	ft_atoi.c ft_bzero.c ft_calloc.c ft_get_next_line.c ft_isalnum.c ft_isal
 		ft_putnbr_fd.c ft_strtrim.c ft_striteri.c ft_putendl_fd.c \
 		ft_printf.c ft_puthexnbr_pf.c ft_putnbr_pf.c ft_putchar_pf.c \
 		ft_itoa.c ft_strmapi.c ft_split.c \
-		ft_lstadd_back.c ft_lstnew.c ft_isnum.c ft_lstlast.c ft_lstsize.c 
-	
+		ft_lstadd_back.c ft_lstnew.c ft_isnum.c ft_lstlast.c ft_lstsize.c \
+		ft_strcmp.c
+
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a 
 LIBC = ar -rcs 
